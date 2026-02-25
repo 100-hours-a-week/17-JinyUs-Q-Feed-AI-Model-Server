@@ -10,7 +10,6 @@ dependencies = [
     "faster-whisper>=1.2.1",
     "pydub>=0.25.1",
     "python-multipart>=0.0.20",
-    "ruff>=0.14.14",
     "torch>=2.8.0",
     "transformers==4.46.0",
     "uvicorn[standard]>=0.39.0",
