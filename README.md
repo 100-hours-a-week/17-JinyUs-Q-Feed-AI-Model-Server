@@ -6,7 +6,7 @@ Q-feed 기술 면접 서비스를 위한 vLLM 기반 LLM 서빙 서버
 
 - **인스턴스**: Runpod (GCP에서 이전)
 - **GPU**: NVIDIA L4
-- **모델**: `openai/gpt-oss-20b`
+- **모델**: `skt/A.X-4.0-Light`
 - **패키지 매니저**: uv
 
 ## 사전 요구사항
@@ -35,7 +35,7 @@ uv sync
 
 ```bash
 uv run python -m vllm.entrypoints.openai.api_server \
-    --model openai/gpt-oss-20b \
+    --model skt/A.X-4.0-Light \
     --host 0.0.0.0 \
     --port 8002 \
     --gpu-memory-utilization 0.9 \
