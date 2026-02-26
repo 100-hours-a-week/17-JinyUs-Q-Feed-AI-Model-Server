@@ -4,7 +4,7 @@
 set -e
 
 # 설정
-MODEL="openai/gpt-oss-20b"
+MODEL="skt/A.X-4.0-Light"
 HOST="0.0.0.0"
 PORT="8002"
 GPU_UTIL="0.9"
