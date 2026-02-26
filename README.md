@@ -6,60 +6,59 @@ Q-feed 기술 면접 서비스를 위한 vLLM 기반 LLM 서빙 서버
 
 - **인스턴스**: Runpod (GCP에서 이전)
 - **GPU**: NVIDIA L4
-- **모델**: `skt/A.X-4.0-Light`
-- **conda 환경**: `llm-server`
+- **모델**: `openai/gpt-oss-20b`
+- **패키지 매니저**: uv
+
+## 사전 요구사항
+
+- CUDA 12.x 이상 (Docker CUDA 베이스 이미지 또는 시스템 설치)
+- [uv](https://docs.astral.sh/uv/) 설치:
+  ```bash
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ```
 
 ## 설치
 
-### 방법 1: environment.yml 사용 (권장)
-
 ```bash
-conda env create -f environment.yml
-conda activate llm-server
-```
-
-### 방법 2: 수동 설치
-
-```bash
-conda create -n llm-server python=3.12 -y
-conda activate llm-server
-pip install vllm torch
+uv sync
 ```
 
 ## 실행
 
-### 로컬 실행
-
-```bash
-conda activate llm-server
-
-python -m vllm.entrypoints.openai.api_server \
-    --model skt/A.X-4.0-Light \
-    --host 0.0.0.0 \
-    --port 8002 \
-    --gpu-memory-utilization 0.9 \
-    --max-model-len 8192 \
-    --trust-remote-code
-```
-
-또는 스크립트 사용:
+### 스크립트 실행 (권장)
 
 ```bash
 ./run.sh
 ```
 
-### 프로덕션 실행 (systemd)
+### 수동 실행
 
+```bash
+uv run python -m vllm.entrypoints.openai.api_server \
+    --model openai/gpt-oss-20b \
+    --host 0.0.0.0 \
+    --port 8002 \
+    --gpu-memory-utilization 0.9 \
+    --max-model-len 9500 \
+    --trust-remote-code \
+    --enable-prefix-caching
+```
 
+### Docker 실행
+
+```bash
+docker build -t qfeed-vllm .
+docker run --gpus all -p 8002:8002 qfeed-vllm
+```
 
 ## 파일 구조
 
 ```
 .
 ├── README.md           # 이 문서
+├── pyproject.toml      # 프로젝트 설정 및 의존성
 ├── run.sh              # 실행 스크립트
-├── vllm.service        # systemd 서비스 설정
-└── environment.yml     # conda 환경 설정
+└── requirements.txt    # Python 패키지 의존성 (호환용)
 ```
 
 ## 주요 설정 옵션
